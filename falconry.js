@@ -1036,8 +1036,6 @@ function (dojo, declare) {
                 playerOrder.id = `player_order_${playerId}`
                 playerOrder.classList.add("player-marker-count")
                 playerOrder.innerText = `Player ${playerNo}`
-                playerOrder.style.background = "none"
-                playerOrder.style.boxShadow = "none"
                 playerBoard.appendChild(playerOrder)
             }
         
@@ -1048,8 +1046,6 @@ function (dojo, declare) {
                 markerElement = document.createElement("div");
                 markerElement.id = `player_markers_${playerId}`;
                 markerElement.classList.add("player-marker-count");
-                markerElement.style.background = "none"
-                markerElement.style.boxShadow = "none"
                 playerBoard.appendChild(markerElement);
             }
             let birdElement = document.querySelector(`#player_bird_${playerId}`);
