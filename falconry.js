@@ -1048,6 +1048,8 @@ function (dojo, declare) {
                 markerElement = document.createElement("div");
                 markerElement.id = `player_markers_${playerId}`;
                 markerElement.classList.add("player-marker-count");
+                markerElement.style.background = "none"
+                markerElement.style.boxShadow = "none"
                 playerBoard.appendChild(markerElement);
             }
             let birdElement = document.querySelector(`#player_bird_${playerId}`);

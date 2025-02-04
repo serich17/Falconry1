@@ -377,10 +377,11 @@ class Falconry extends Table
         }
 
         $cards_played = $total_cards;
-        $players = $this->getCollectionFromDb("SELECT marker FROM player;");
+        $players = $this->getCollectionFromDb("SELECT player_id, marker FROM player;");
 
         foreach ($players as $player) {
             $cards_played -= intval($player["marker"]);
+            
         }
         
 
