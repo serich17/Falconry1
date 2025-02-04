@@ -1,0 +1,60 @@
+.card {
+    width: 100px;
+    height: 100px;
+    display: inline-block;
+    background-image: url("FalconryBGA.png");
+    background-size: 300px 400px;
+    
+}
+.no_card {
+    width: 100px;
+    height: 100px;
+    display: inline-block;
+}
+
+
+#grid {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    justify-content: center;
+    
+}
+
+
+/*Card positions on sprite image*/
+.greenFalconer {
+    background-position: 0% 0%;
+}
+.greenBird {
+    background-position: 50% 0%;
+}
+.greenMarker {
+    background-position: 100% 0%;
+}
+.yellowFalconer {
+    background-position: 0% 33.3%;
+}
+.yellowBird {
+    background-position: 50% 33.3%;
+}
+.yellowMarker {
+    background-position: 100% 33.3%;
+}
+.blueFalconer {
+    background-position: 0% 66.6%;
+}
+.blueBird {
+    background-position: 50% 66.6%;
+}
+.blueMarker {
+    background-position: 100% 66.6%;
+}
+.redFalconer {
+    background-position: 0% 100%;
+}
+.redBird {
+    background-position: 50% 100%;
+}
+.redMarker {
+    background-position: 100% 100%;
+}
