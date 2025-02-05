@@ -85,7 +85,7 @@ $gameinfos = array(
 
 // When doing a rematch, the player order is swapped using a "rotation" so the starting player is not the same
 // If you want to disable this, set this to true
-'disable_player_order_swap_on_rematch' => false,
+'disable_player_order_swap_on_rematch' => true,
 
 // Game interface width range (pixels)
 // Note: game interface = space on the left side, without the column on the right
@@ -95,7 +95,7 @@ $gameinfos = array(
     //  default: 740
     //  maximum possible value: 740 (ie: your game interface should fit with a 740px width (correspond to a 1024px screen)
     //  minimum possible value: 320 (the lowest value you specify, the better the display is on mobile)
-    'min' => 740,
+    'min' => 320,
 ),
 
 );

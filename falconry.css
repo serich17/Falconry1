@@ -144,6 +144,9 @@
     background-size: cover;
     margin: 10px 0 0 10px;
     border-radius: 4px;
+    /* border: 2px solid rgba(255, 255, 255, 0.7); */
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .player-team {
@@ -317,12 +320,95 @@ div {
 }
 
 
-/** This is some extra stuff to extend the container **/
+@media (max-width: 600px) {
+    :root {
+        --tile-height: 50px;
+    }
 
-#map_footer {
-    text-align: center;
+    .card--selectable:hover {
+        transform: none;
+    }
+    .card--selected {
+        border: 1px solid #fff;
+        box-shadow: 0 0 5px 1px #fff;
+    }
+
+    body {
+        font-size: .7em;
+    }
+
+    .card {
+        background-size: 150px 200px;
+    }
+
+    .mobile_version #player_boards {
+        margin-right: -3px;
+        display: grid;
+        gap: 6px;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    
+    }
+    .player-board-game-specific-content {
+        flex-wrap: wrap;    }
+
+    .player-team {
+        margin: 5px 0 0 5px;
+    }
+    .player-marker-count {
+        margin: 5px 0 0 5px;
+    }
+
+    #zoomplus, #zoomminus, .centerGridBtn {
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+        z-index: 5;
+        background-size: 80px 40px;
+        user-select: none;
+        background-image: url("img/buttonWhite.png");
+    }
+
+    .movetop,.moveleft,.moveright,.movedown, #centerGrid {
+        width: 20px;
+        height: 20px;
+        background-size: 80px 40px;
+        display: block;
+        position: absolute;
+        z-index: 5;
+        background-image: url("img/buttonWhite.png");
+    }
+
+    .movetop {
+        top: 0px;
+        left: 20px;
+        background-position: 0 0;
+    }
+    .moveleft {
+        top: 20px;
+        left: 0px;
+        background-position: 33.33% 0;
+    }
+    .moveright {
+        top: 20px;
+        left: 40px;
+        background-position: 33.33% 100%;
+    }
+    .movedown {
+        top: 40px;
+        left: 20px;
+        background-position: 0 100%;
+    }
+    
+    #centerGrid {
+        top: 20px;
+        left: 20px;
+    }
+
+
+
 }
 
+@media (min-width: 600px) { 
 /** Move arrows **/
 
 .movetop,.moveleft,.moveright,.movedown, #centerGrid {
@@ -331,7 +417,7 @@ div {
     background-image: url('img/buttonWhite.png');
     width: 40px;
     height: 40px;
-    z-index: 1000;
+    z-index: 5;
 }
 
 .movetop,.moveleft,.moveright,.movedown, :hover {
@@ -363,6 +449,19 @@ div {
     top: 40px;
     left: 40px;
 }
+
+
+}
+
+
+
+/** This is some extra stuff to extend the container **/
+
+#map_footer {
+    text-align: center;
+}
+
+
 
 
 

@@ -102,8 +102,51 @@ class Falconry extends Table
         // Function to get card type args for a specific color
 
         // Setup the initial game situation
-        $players = $this->getCollectionFromDb("SELECT player_id, player_color, player_no FROM player ORDER BY player_no;");
+        // $players = $this->getCollectionFromDb("SELECT player_id, player_color, player_no FROM player ORDER BY player_no;");
         $playersNumber = $this->getPlayersNumber();
+
+        $customOrder = [];
+
+        if ($playersNumber == 3 && $this->getGameStateValue('allied_nobility') == 2) {
+            // Logic for 3 players
+            if ($this->getGameStateValue('team_setup_3') == 1) {
+                $customOrder = [1, 2, 3];
+            } else if ($this->getGameStateValue('team_setup_3') == 2) {
+                $customOrder = [3, 1, 2];
+            } else if ($this->getGameStateValue('team_setup_3') == 3) {
+                $customOrder = [2, 3, 1];
+            }
+
+        } else if ($playersNumber == 4 && $this->getGameStateValue('joint_nobility') == 2) {
+            // Logic for 4 players
+            if ($this->getGameStateValue('team_setup_4') == 1) {
+                $customOrder = [1, 3, 2, 4];
+            } else if ($this->getGameStateValue('team_setup_4') == 2) {
+                $customOrder = [1, 2, 3, 4];
+            } else if ($this->getGameStateValue('team_setup_4') == 3) {
+                $customOrder = [1, 2, 4, 3];
+            }
+        }
+        else {
+            for ($i = 1; $i<=$playersNumber; $i++) {
+                $customOrder[] = $i;
+            }
+        }
+        $counter = 1;
+        foreach ($customOrder as $order) {
+            $this->DbQuery("UPDATE player SET turn_order = $counter WHERE player_no = $order;");
+            $counter ++;
+        }
+
+        if ($playersNumber == 3 && $this->getGameStateValue('allied_nobility') == 1) {
+            $this->randomizeStart();
+        }
+        
+
+        $players = $this->getCollectionFromDb("SELECT player_id, player_color, turn_order player_no FROM player ORDER BY turn_order;");
+
+
+
 
         // Initialize the positions for different player counts
         $positions = [
@@ -180,7 +223,7 @@ class Falconry extends Table
                     WHERE player_id IN ({$orderedPlayers[0]['player_id']}, {$orderedPlayers[1]['player_id']}, {$orderedPlayers[2]['player_id']});
                 ");
                 
-                $this->activeNextPlayer();
+                $this->randomizeStart(2);
             } else {
                 // Standard 3-player mode - starting player in middle
                 $positions = [
@@ -252,16 +295,16 @@ class Falconry extends Table
                     UPDATE player
                     SET 
                         team = CASE
-                            WHEN player_no = 1 THEN {$playerIds[3]}
-                            WHEN player_no = 2 THEN {$playerIds[4]}
-                            WHEN player_no = 3 THEN {$playerIds[1]}
-                            WHEN player_no = 4 THEN {$playerIds[2]}
+                            WHEN turn_order = 1 THEN {$playerIds[3]}
+                            WHEN turn_order = 2 THEN {$playerIds[4]}
+                            WHEN turn_order = 3 THEN {$playerIds[1]}
+                            WHEN turn_order = 4 THEN {$playerIds[2]}
                         END,
                         team_no = CASE
-                            WHEN player_no IN (1, 3) THEN 1
-                            WHEN player_no IN (2, 4) THEN 2
+                            WHEN turn_order IN (1, 3) THEN 1
+                            WHEN turn_order IN (2, 4) THEN 2
                         END
-                    WHERE player_no IN (1, 2, 3, 4)
+                    WHERE turn_order IN (1, 2, 3, 4)
                 ");
             }
 
@@ -297,8 +340,12 @@ class Falconry extends Table
             $this->DbQuery($query);
         }
 
+        if ($playersNumber != 3) {
+            $this->randomizeStart();
+        }
+
         // Activate first player
-        $this->activeNextPlayer();
+        $this->nextPlayer();
 
         /************ End of the game initialization *****/
     }
@@ -333,7 +380,7 @@ class Falconry extends Table
     
         // Get information about players
         // Note: you can retrieve some extra field you added for "player" table in "dbmodel.sql" if you need it.
-        $sql = "SELECT player_id id, player_no, player_score score, marker, team_no FROM player ";
+        $sql = "SELECT player_id id, turn_order player_no, player_score score, marker, team_no FROM player ";
         $result['players'] = $this->getCollectionFromDb( $sql );
   
         // TODO: Gather all information about current game situation (visible by player $current_player_id).
@@ -396,6 +443,38 @@ class Falconry extends Table
     /*
         In this space, you can put any utility methods useful for your game logic
     */
+    function nextPlayer() {
+            $activePlayer = $this->getActivePlayerId();
+            if ($activePlayer) {
+                $currentTurn = intval($this->getUniqueValueFromDB("SELECT turn_order FROM player WHERE player_id = $activePlayer;"));
+                if (($currentTurn == 3 && $this->getPlayersNumber() == 3) || ($currentTurn == 4 && $this->getPlayersNumber() == 4)) {
+                    $nextTurn = 1;
+                } else {
+                    $nextTurn = $currentTurn + 1;
+                }
+                $nextPlayer = $this->getUniqueValueFromDB("SELECT player_id FROM player WHERE turn_order = $nextTurn;");
+                $this->gamestate->changeActivePlayer($nextPlayer);
+            } else {
+                $this->gamestate->changeActivePlayer($this->getUniqueValueFromDB("SELECT player_id FROM player WHERE turn_order = 1;"));
+            }
+    }
+
+    function randomizeStart($randomNumber = null) {
+        $players = $this->getPlayersNumber();
+
+        if (!$randomNumber) {
+            $randomNumber = mt_rand(1, $players);
+        }
+
+        if ($players == 2) {
+            $this->DbQuery("UPDATE player SET turn_order = (turn_order + $randomNumber - 1) % 2 + 1");
+        } else if ($players == 3) {
+            $this->DbQuery("UPDATE player SET turn_order = (turn_order + $randomNumber - 1) % 3 + 1");
+        } else if ($players == 4) {
+            $this->DbQuery("UPDATE player SET turn_order = (turn_order + $randomNumber - 1) % 4 + 1");
+        }
+    }
+
 
     function updateCardEdges() {
         // add where clauses to not change the card in the negative for multiplayer
@@ -1035,7 +1114,9 @@ if ($cardId == 400) {
     
         // Get information about players
         // Note: you can retrieve some extra field you added for "player" table in "dbmodel.sql" if you need it.
-        $sql = "SELECT player_id id, player_no, player_score score, player_color color, marker, team_no FROM player ";
+        
+        $sql = "SELECT player_id id, turn_order player_no, player_score score, player_color color, marker, team_no FROM player ";
+        
         $result['players'] = $this->getCollectionFromDb( $sql );
   
         // TODO: Gather all information about current game situation (visible by player $current_player_id).
@@ -1253,7 +1334,7 @@ function stRevert2() {
             }
         }
     
-        $this->activeNextPlayer();
+        $this->nextPlayer();
         $this->gamestate->nextState('nextPlayer');
     }
     

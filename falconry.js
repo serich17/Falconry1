@@ -69,7 +69,12 @@ function (dojo, declare) {
             this.scrollmap.create( $('map_container'),$('map_scrollable'),$('map_surface'),$('game-board') ); // use ids from template
             //this.scrollmap.setupOnScreenArrows( 300 ); // this will hook buttons to onclick functions with 150px scroll step
             //SET UP SCROLL STEPS
-            const SCROLL_STEP = 300;
+
+            const screenWidth = window.innerWidth;
+            const SCROLL_STEP = screenWidth < 600 ? 150 : 300;
+
+            
+
 
             // Reference your buttons
             const moveTopBtn = document.querySelector('.movetop');
@@ -967,8 +972,11 @@ function (dojo, declare) {
                 }
             });
 
+            const screenWidth = window.innerWidth;
+            const width = screenWidth < 600 ? 50 : 100;
+
             // Scroll to the center of the grid
-            this.scrollmap.scrollto(-maxColumn/2*100, -maxRow/2*100);
+            this.scrollmap.scrollto(-maxColumn/2*width, -maxRow/2*width);
 
 
 
@@ -1036,6 +1044,8 @@ function (dojo, declare) {
                 playerOrder.id = `player_order_${playerId}`
                 playerOrder.classList.add("player-marker-count")
                 playerOrder.innerText = `Player ${playerNo}`
+                playerOrder.style.background = "none"
+                playerOrder.style.boxShadow = "none"
                 playerBoard.appendChild(playerOrder)
             }
         

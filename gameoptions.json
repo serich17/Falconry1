@@ -77,58 +77,38 @@
         ],
         "displayconditionoperand": "and"
     },
-
-    "103": {
-    "name": "Select Teams",
-    "description": "Choose how teams are assigned in the team variant.",
-    "values": {
-        "1": { "name": "Seat 1 vs. Seats 2 & 3", "tmdisplay": "Seat 1 vs. Seats 2 & 3" },
-        "2": { "name": "Seats 1 & 2 vs. Seat 3", "tmdisplay": "Seats 1 & 2 vs. Seat 3" },
-        "3": { "name": "Seats 1 & 3 vs. Seat 2", "tmdisplay": "Seats 1 & 3 vs. Seat 2" }
-    },
-    "default": 1,
-    "displaycondition": [
-        {
-            "type": "otheroption",
-            "id": 101,
-            "value": 2
+        "103": {
+          "name": "Select Teams",
+          "description": "Choose how teams are assigned in the team variant.",
+          "values": {
+            "1": { "name": "Seat 1 vs. Seats 2 & 3", "tmdisplay": "Seat 1 vs. Seats 2 & 3" },
+            "2": { "name": "Seats 1 & 2 vs. Seat 3", "tmdisplay": "Seats 1 & 2 vs. Seat 3" },
+            "3": { "name": "Seats 1 & 3 vs. Seat 2", "tmdisplay": "Seats 1 & 3 vs. Seat 2" }
+          },
+          "default": 1,
+          "displaycondition": [
+            { "type": "otheroption", "id": 101, "value": 2 },
+            { "type": "maxplayers", "value": 3 },
+            { "type": "minplayers", "value": 3 }
+          ],
+          "displayconditionoperand": "and"
         },
-        {
-            "type": "maxplayers",
-            "value": 3
-        },
-        {
-            "type": "minplayers",
-            "value": 3
+        "104": {
+          "name": "Select Teams",
+          "description": "Choose how teams are assigned in the team variant.",
+          "values": {
+            "1": { "name": "Seats 1 & 2 vs. Seats 3 & 4", "tmdisplay": "Seats 1 & 2 vs. Seats 3 & 4" },
+            "2": { "name": "Seats 1 & 3 vs. Seats 2 & 4", "tmdisplay": "Seats 1 & 3 vs. Seats 2 & 4" },
+            "3": { "name": "Seats 1 & 4 vs. Seats 2 & 3", "tmdisplay": "Seats 1 & 4 vs. Seats 2 & 3" }
+          },
+          "default": 1,
+          "displaycondition": [
+            { "type": "otheroption", "id": 102, "value": 2 },
+            { "type": "maxplayers", "value": 4 },
+            { "type": "minplayers", "value": 4 }
+          ],
+          "displayconditionoperand": "and"
         }
-    ],
-    "displayconditionoperand": "and"
-    },
-    "104": {
-    "name": "Select Teams",
-    "description": "Choose how teams are assigned in the team variant.",
-    "values": {
-        "1": { "name": "Seats 1 & 2 vs. Seats 3 & 4", "tmdisplay": "Seats 1 & 2 vs. Seats 3 & 4" },
-        "2": { "name": "Seats 1 & 3 vs. Seats 2 & 4", "tmdisplay": "Seats 1 & 3 vs. Seats 2 & 4" },
-        "3": { "name": "Seats 1 & 4 vs. Seats 2 & 3", "tmdisplay": "Seats 1 & 4 vs. Seats 2 & 3" }
-        
-    },
-    "default": 1,
-    "displaycondition": [
-        {
-            "type": "otheroption",
-            "id": 102,
-            "value": 2
-        },
-        {
-            "type": "maxplayers",
-            "value": 4
-        },
-        {
-            "type": "minplayers",
-            "value": 4
-        }
-    ],
-    "displayconditionoperand": "and"
-    }
+      
+      
 }
