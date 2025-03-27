@@ -323,6 +323,7 @@ div {
 @media (max-width: 600px) {
     :root {
         --tile-height: 50px;
+        --bga-game-zoom: .5;
     }
 
     .card--selectable:hover {
@@ -332,31 +333,16 @@ div {
         border: 1px solid #fff;
         box-shadow: 0 0 5px 1px #fff;
     }
-
-    body {
-        font-size: .7em;
+    .title {
+        font-size: .5rem;
     }
 
     .card {
         background-size: 150px 200px;
     }
 
-    .mobile_version #player_boards {
-        margin-right: -3px;
-        display: grid;
-        gap: 6px;
-        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
     
-    }
-    .player-board-game-specific-content {
-        flex-wrap: wrap;    }
 
-    .player-team {
-        margin: 5px 0 0 5px;
-    }
-    .player-marker-count {
-        margin: 5px 0 0 5px;
-    }
 
     #zoomplus, #zoomminus, .centerGridBtn {
         width: 20px;

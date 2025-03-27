@@ -1087,19 +1087,22 @@ function (dojo, declare) {
         },
         
         getTooltipContent: function(className) {
+            const falconer = _('<b>Falconers</b> are the most powerful cards, and can claim other players\' markers or ambush their birds. Your falconer may be placed alone or on top of a marker or bird card of another color.')
+            const bird = _('<b>Birds</b> can claim other players\' markers. Your bird may be placed alone, or on top of a marker card of another color.')
+            const marker = _('<b>Markers</b> are the most basic card type, and may only be placed alone in open spots connected to other cards.')
             const tooltips = {
-                'greenFalconer': '<b>Falconers</b> are the most powerful cards, and can claim other players\' markers or ambush their birds. Your falconer may be placed alone or on top of a marker or bird card of another color.',
-                'greenBird': '<b>Birds</b> can claim other players\' markers. Your bird may be placed alone, or on top of a marker card of another color.',
-                'greenMarker': '<b>Markers</b> are the most basic card type, and may only be placed alone in open spots connected to other cards.',
-                'yellowFalconer': '<b>Falconers</b> are the most powerful cards, and can claim other players\' markers or ambush their birds. Your falconer may be placed alone or on top of a marker or bird card of another color.',
-                'yellowBird': '<b>Birds</b> can claim other players\' markers. Your bird may be placed alone, or on top of a marker card of another color.',
-                'yellowMarker': '<b>Markers</b> are the most basic card type, and may only be placed alone in open spots connected to other cards.',
-                'blueFalconer': '<b>Falconers</b> are the most powerful cards, and can claim other players\' markers or ambush their birds. Your falconer may be placed alone or on top of a marker or bird card of another color.',
-                'blueBird': '<b>Birds</b> can claim other players\' markers. Your bird may be placed alone, or on top of a marker card of another color.',
-                'blueMarker': '<b>Markers</b> are the most basic card type, and may only be placed alone in open spots connected to other cards.',
-                'redFalconer': '<b>Falconers</b> are the most powerful cards, and can claim other players\' markers or ambush their birds. Your falconer may be placed alone or on top of a marker or bird card of another color.',
-                'redBird': '<b>Birds</b> can claim other players\' markers. Your bird may be placed alone, or on top of a marker card of another color.',
-                'redMarker': '<b>Markers</b> are the most basic card type, and may only be placed alone in open spots connected to other cards.'
+                'greenFalconer': falconer,
+                'greenBird': bird,
+                'greenMarker': marker,
+                'yellowFalconer': falconer,
+                'yellowBird': bird,
+                'yellowMarker': marker,
+                'blueFalconer': falconer,
+                'blueBird': bird,
+                'blueMarker': marker,
+                'redFalconer': falconer,
+                'redBird': bird,
+                'redMarker': marker
             };
             return tooltips[className] || 'Card';
         },

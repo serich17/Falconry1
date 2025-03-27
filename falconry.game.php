@@ -447,7 +447,7 @@ class Falconry extends Table
             $activePlayer = $this->getActivePlayerId();
             if ($activePlayer) {
                 $currentTurn = intval($this->getUniqueValueFromDB("SELECT turn_order FROM player WHERE player_id = $activePlayer;"));
-                if (($currentTurn == 3 && $this->getPlayersNumber() == 3) || ($currentTurn == 4 && $this->getPlayersNumber() == 4)) {
+                if (($currentTurn == 3 && $this->getPlayersNumber() == 3) || ($currentTurn == 4 && $this->getPlayersNumber() == 4) || ($currentTurn == 2 && $this->getPlayersNumber() == 2)) {
                     $nextTurn = 1;
                 } else {
                     $nextTurn = $currentTurn + 1;
