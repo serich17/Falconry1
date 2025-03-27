@@ -77,12 +77,12 @@ class Falconry extends Table
  
         // Create players
         // Note: if you added some extra field on "player" table in the database (dbmodel.sql), you can initialize it there.
-        $sql = "INSERT INTO player (player_id, player_color, player_canal, player_name, player_avatar) VALUES ";
+        $sql = "INSERT INTO player (player_id, table_order, player_color, player_canal, player_name, player_avatar) VALUES ";
         $values = array();
         foreach( $players as $player_id => $player )
         {
             $color = array_shift( $default_colors );
-            $values[] = "('".$player_id."','$color','".$player['player_canal']."','".addslashes( $player['player_name'] )."','".addslashes( $player['player_avatar'] )."')";
+            $values[] = "('".$player_id."', '".$player['player_table_order']."', '$color','".$player['player_canal']."','".addslashes( $player['player_name'] )."','".addslashes( $player['player_avatar'] )."')";
         }
         $sql .= implode( ',', $values );
         $this->DbQuery( $sql );
@@ -134,9 +134,12 @@ class Falconry extends Table
         }
         $counter = 1;
         foreach ($customOrder as $order) {
-            $this->DbQuery("UPDATE player SET turn_order = $counter WHERE player_no = $order;");
+            $this->DbQuery("UPDATE player SET turn_order = $counter WHERE table_order = $order;");
             $counter ++;
         }
+
+        $this->DbQuery("UPDATE player SET player_no = player_no + 5;");
+        $this->DbQuery("UPDATE player SET player_no = turn_order;");
 
         if ($playersNumber == 3 && $this->getGameStateValue('allied_nobility') == 1) {
             $this->randomizeStart();
@@ -144,9 +147,6 @@ class Falconry extends Table
         
 
         $players = $this->getCollectionFromDb("SELECT player_id, player_color, turn_order player_no FROM player ORDER BY turn_order;");
-
-
-
 
         // Initialize the positions for different player counts
         $positions = [
