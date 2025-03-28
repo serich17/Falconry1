@@ -109,7 +109,8 @@ function (dojo, declare) {
             dojo.query('.centerGridBtn').forEach((element) => {
                 dojo.connect(element, 'onclick', this, 'centerAndFitGrid');
             });
-            
+            var cur_h = toint(dojo.style( $('map_container'), 'height'));
+            dojo.style($('map_container'), 'height', (cur_h - 250) + 'px');
             
             // Setting up player boards
             for( var player_id in gamedatas.players )
