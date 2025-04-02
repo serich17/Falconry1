@@ -1276,9 +1276,9 @@ function stRevert2() {
             $player_id =  $this->getActivePlayerId();
 
             if ($this->getUniqueValueFromDB("SELECT from_storage FROM `move` WHERE move_id = $move_id") == 1 || $this->getUniqueValueFromDB("SELECT previous_row FROM `move` WHERE move_id = $move_id") == -3) {
-                $move_name = "played";
+                $move_name = clienttranslate("played");
             } else {
-                $move_name = "moved";
+                $move_name = clienttranslate("moved");
             }
 
             // Get player name for notification

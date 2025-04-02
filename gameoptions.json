@@ -38,7 +38,7 @@
                 "tmdisplay": "Allied Nobility (Teams)"
             }
         },
-        "default": 1,
+        "default": 2,
         "displaycondition": [
             {
                 "type": "maxplayers",
@@ -64,7 +64,7 @@
                 "tmdisplay": "Joint Nobility (Teams)"
             }
         },
-        "default": 1,
+        "default": 2,
         "displaycondition": [
             {
                 "type": "maxplayers",
