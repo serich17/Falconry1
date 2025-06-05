@@ -86,6 +86,9 @@ class Falconry extends Table
         }
         $sql .= implode( ',', $values );
         $this->DbQuery( $sql );
+
+        // set the colors to preferences after they are shuffled
+        shuffle($gameinfos['player_colors']);
         $this->reattributeColorsBasedOnPreferences( $players, $gameinfos['player_colors'] );
         $this->reloadPlayersBasicInfos();
         
@@ -104,6 +107,8 @@ class Falconry extends Table
         // Setup the initial game situation
         // $players = $this->getCollectionFromDb("SELECT player_id, player_color, player_no FROM player ORDER BY player_no;");
         $playersNumber = $this->getPlayersNumber();
+        #$players = $this->getCollectionFromDb("SELECT player_id, player_color, turn_order player_no FROM player ORDER BY turn_order;");
+        // throw new BgaSystemException('Debug: $myVar = ' .json_encode($players));
 
         $customOrder = [];
 
@@ -132,11 +137,24 @@ class Falconry extends Table
                 $customOrder[] = $i;
             }
         }
-        $counter = 1;
-        foreach ($customOrder as $order) {
-            $this->DbQuery("UPDATE player SET turn_order = $counter WHERE table_order = $order;");
-            $counter ++;
+        # key code is right here that tries to assign the turn_order according to the table_order
+        $playerIds = $this->getObjectListFromDb("SELECT player_id FROM player ORDER BY table_order ASC", true);
+
+        // Debug: make sure both arrays line up
+        if (count($playerIds) != count($customOrder)) {
+            throw new BgaSystemException("Mismatch assigning turn_order: playerIds = " . json_encode($playerIds) . " vs customOrder = " . json_encode($customOrder));
         }
+
+        for ($i = 0; $i < count($playerIds); $i++) {
+            $playerId = $playerIds[$i];
+            $turnOrder = $customOrder[$i];
+            $this->DbQuery("UPDATE player SET turn_order = $turnOrder WHERE player_id = $playerId");
+        }
+
+
+        // $players = $this->getCollectionFromDb("SELECT player_id, player_color, turn_order player_no FROM player ORDER BY turn_order;");
+        // throw new BgaSystemException('Debug: $myVar = ' .json_encode($players));
+
 
         $this->DbQuery("UPDATE player SET player_no = player_no + 5;");
         $this->DbQuery("UPDATE player SET player_no = turn_order;");
@@ -289,6 +307,9 @@ class Falconry extends Table
                 foreach ($players as $player) {
                     $playerIds[$player['player_no']] = $player['player_id'];
                 }
+                // throw new BgaSystemException('Debug: $myVar = ' . json_encode($playerIds).'\n'.json_encode($players));
+                
+
 
                 // Update team assignments without self-referencing subqueries
                 $this->DbQuery("
